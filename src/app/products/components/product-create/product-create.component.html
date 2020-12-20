@@ -1,4 +1,4 @@
-<form [formGroup]="productForm" novalidate (ngSubmit)="onSubmit()">
+<form [formGroup]="productForm" novalidate (ngSubmit)="onSubmit($event)">
   <mat-card class="product-card">
     <mat-card-header>
       <mat-card-title>Crear Producto</mat-card-title>
@@ -10,6 +10,9 @@
             <input matInput placeholder="Nombre" formControlName="name">
             <mat-error *ngIf="productForm.controls['name'].hasError('required')">
               El nombre es <strong>requerido</strong>
+            </mat-error>
+            <mat-error *ngIf="productForm.controls['description'].hasError('maxlength')">
+              El nombre debe contener <strong>máximo 80</strong> caracteres
             </mat-error>
           </mat-form-field>
         </div>
@@ -33,6 +36,9 @@
             <mat-error *ngIf="productForm.controls['price'].hasError('required')">
               El precio es <strong>requerido</strong>
             </mat-error>
+            <mat-error *ngIf="productForm.controls['price'].hasError('min')">
+              El precio debe ser <strong>mayor o igual a 0</strong>
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="col">
@@ -40,6 +46,9 @@
             <input matInput placeholder="Cantidad" formControlName="quantity" type="number">
             <mat-error *ngIf="productForm.controls['quantity'].hasError('required')">
               La cantidad es <strong>requerida</strong>
+            </mat-error>
+            <mat-error *ngIf="productForm.controls['quantity'].hasError('min')">
+              La cantidad debe ser <strong>mayor o igual a 0</strong>
             </mat-error>
           </mat-form-field>
         </div>
@@ -51,12 +60,15 @@
             <mat-error *ngIf="productForm.controls['description'].hasError('required')">
               La descripción es <strong>requerida</strong>
             </mat-error>
+            <mat-error *ngIf="productForm.controls['description'].hasError('minlength')">
+              La descripción debe contener <strong>mínimo 10</strong> caracteres
+            </mat-error>
           </mat-form-field>
         </div>
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="primary" type="submit">Submit</button>
+      <button mat-raised-button color="primary" type="submit">Enviar</button>
     </mat-card-actions>
   </mat-card>
 </form>
