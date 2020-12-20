@@ -1,8 +1,13 @@
 .products-table {
-    width: 96%;
-    margin: 2%;
-  }
-  
-  .mat-header-cell, .mat-cell {
-    text-align: center;
-  }
+  width: 96%;
+  margin: 2%;
+}
+
+.mat-header-cell,
+.mat-cell {
+  text-align: center;
+}
+
+.add-button{
+  margin: 2% 0 0 2%;
+}
