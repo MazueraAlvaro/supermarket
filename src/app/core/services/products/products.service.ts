@@ -35,7 +35,7 @@ export class ProductsService {
     );
   }
 
-  createProduct(product: Product): Observable<string> {
+  createProduct(product: Partial<Product>): Observable<string> {
     return this.http.post(environment.url_api + '/products', product).pipe(
       catchError(this.handleError('createProduct', { data: '' })),
       map((response) => response.data)
@@ -45,7 +45,7 @@ export class ProductsService {
   updateProduct(
     productId: string,
     changes: Partial<Product>
-  ): Observable<object> {
+  ): Observable<string> {
     return this.http
       .put(environment.url_api + '/products/' + productId, changes)
       .pipe(

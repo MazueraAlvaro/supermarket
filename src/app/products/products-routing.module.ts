@@ -11,7 +11,7 @@ const routes: Routes = [
     },
     {
         path: 'edit/:id',
-        component: ProductEditComponent
+        component: ProductCreateComponent
     },
     {
         path: 'create',
