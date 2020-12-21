@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { Product } from 'src/app/core/models/product.model';
 import { ProductsService } from 'src/app/core/services/products/products.service';
 import { ProductShowComponent } from '../product-show/product-show.component';
@@ -9,8 +12,7 @@ import { ProductShowComponent } from '../product-show/product-show.component';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'],
 })
-export class ProductsComponent implements OnInit {
-  products: Product[] = [];
+export class ProductsComponent implements OnInit, AfterViewInit {
   displayedColumns = [
     'index',
     'name',
@@ -19,26 +21,42 @@ export class ProductsComponent implements OnInit {
     'quantity',
     'actions',
   ];
+  dataSource: MatTableDataSource<Product>;
+  searchControl: FormControl;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   constructor(
     private productsService: ProductsService,
     private dialog: MatDialog
-    ) {}
+    ) {
+      this.dataSource = new MatTableDataSource();
+      this.searchControl = new FormControl(null, [
+        Validators.required,
+        Validators.minLength(3)
+      ]);
+    }
 
   ngOnInit(): void {
     this.fetchProducts();
   }
 
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+  }
+
   fetchProducts(): void {
     this.productsService.getAllProducts().subscribe((products) => {
-      this.products = products;
+      this.dataSource.data = products;
     });
   }
 
   deleteProduct(productId: string, index): void {
     this.productsService.deleteProduct(productId).subscribe((deletedId) => {
       if (deletedId === productId) {
-        this.products.splice(index, 1);
-        this.products = [...this.products];
+        const products = this.dataSource.data;
+        products.splice(index, 1);
+        this.dataSource.data = [...products];
       }
     });
   }
@@ -51,5 +69,14 @@ export class ProductsComponent implements OnInit {
         width: '400px'
       });
     });
+  }
+
+  searchProduct(): void{
+    if(this.searchControl.valid){
+      this.productsService.searchProductByName(this.searchControl.value)
+      .subscribe(products => {
+        this.dataSource.data = products;
+      })
+    }
   }
 }
