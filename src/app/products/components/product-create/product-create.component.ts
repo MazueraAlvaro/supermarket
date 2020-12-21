@@ -16,13 +16,13 @@ export class ProductCreateComponent implements OnInit {
   hasUnitNumber = false;
 
   categories = [
-    'Frutas',
     'Abarrotes',
-    'Verduras',
-    'Carnes',
     'Aseo',
+    'Carnes',
     'Enlatados',
     'Especias',
+    'Frutas',
+    'Verduras',
   ];
 
   productId: string;
