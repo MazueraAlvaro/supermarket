@@ -23,7 +23,7 @@ export class ProductsComponent implements OnInit, AfterViewInit {
   ];
   dataSource: MatTableDataSource<Product>;
   searchControl: FormControl;
-
+  searched = false;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
@@ -46,6 +46,8 @@ export class ProductsComponent implements OnInit, AfterViewInit {
   }
 
   fetchProducts(): void {
+    this.searched = false;
+    this.searchControl.patchValue(null);
     this.productsService.getAllProducts().subscribe((products) => {
       this.dataSource.data = products;
     });
@@ -72,7 +74,8 @@ export class ProductsComponent implements OnInit, AfterViewInit {
   }
 
   searchProduct(): void{
-    if(this.searchControl.valid){
+    this.searched = true;
+    if (this.searchControl.valid){
       this.productsService.searchProductByName(this.searchControl.value)
       .subscribe(products => {
         this.dataSource.data = products;
