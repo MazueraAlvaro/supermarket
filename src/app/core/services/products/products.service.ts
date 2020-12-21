@@ -54,7 +54,7 @@ export class ProductsService {
       );
   }
 
-  deleteProduct(productId: string): Observable<boolean> {
+  deleteProduct(productId: string): Observable<string> {
     return this.http
       .delete<boolean>(environment.url_api + '/products/' + productId)
       .pipe(

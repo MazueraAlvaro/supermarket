@@ -1,0 +1,48 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Ver Producto</mat-card-title>
+        <mat-card-subtitle>{{ product.name }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="row">
+            <div class="col">
+                <strong>Nombre:</strong>
+            </div>
+            <div class="col">
+                <span>{{product.name}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <strong>Categoria:</strong>
+            </div>
+            <div class="col">
+                <span>{{product.category}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <strong>Precio:</strong>
+            </div>
+            <div class="col">
+                <span>{{product.price}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <strong>Cantidad:</strong>
+            </div>
+            <div class="col">
+                <span>{{product.quantity}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <strong>Descripción:</strong>
+            </div>
+            <div class="col">
+                <p>{{product.description}}</p>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
