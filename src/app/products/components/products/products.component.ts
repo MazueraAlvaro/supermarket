@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { Product } from 'src/app/core/models/product.model';
 import { ProductsService } from 'src/app/core/services/products/products.service';
 import { ProductShowComponent } from '../product-show/product-show.component';
@@ -9,7 +11,7 @@ import { ProductShowComponent } from '../product-show/product-show.component';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'],
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, AfterViewInit {
   products: Product[] = [];
   displayedColumns = [
     'index',
@@ -19,18 +21,29 @@ export class ProductsComponent implements OnInit {
     'quantity',
     'actions',
   ];
+  dataSource: MatTableDataSource<Product>;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   constructor(
     private productsService: ProductsService,
     private dialog: MatDialog
-    ) {}
+    ) {
+      this.dataSource = new MatTableDataSource();
+    }
 
   ngOnInit(): void {
     this.fetchProducts();
   }
 
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+  }
+
   fetchProducts(): void {
     this.productsService.getAllProducts().subscribe((products) => {
       this.products = products;
+      this.dataSource.data = products;
     });
   }
 
